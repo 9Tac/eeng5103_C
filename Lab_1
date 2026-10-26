@@ -1,7 +1,7 @@
 /*
 Name: eustace williams 
 login; Ew521
-module: EEng5103
+Module: EEng5103
 */
 #include <stdio.h>
 #define Max 100 // this sets the max variable at a constant of 100
@@ -15,4 +15,7 @@ struct cg{
     float x, y, mass; // assign the float data type to the x y and mass varaibles 
 };
 
-struct cg  masses
+struct cg  masses[Max]; // gives the limit of the value stored in the constant Max
+
+
+int readin
