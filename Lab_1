@@ -1,1 +1,18 @@
+/*
+Name: eustace williams 
+login; Ew521
+module: EEng5103
+*/
+#include <stdio.h>
+#define Max 100 // this sets the max variable at a constant of 100
+/*
+Below for this assignment is for the function to calcutae centre of gravity.
+The program will read the information from the user input (keyboard),
+calculates the resultant centre of gravity location.
+Display the output of the calculation on  the screen/display
+*/
+struct cg{
+    float x, y, mass; // assign the float data type to the x y and mass varaibles 
+};
 
+struct cg  masses
