@@ -1,6 +1,8 @@
 #include <stdio.h>
-
-
+#include <string.h>
+//Global list varible that cna be used in all functions 
+char code1[] = "abcdefghijklmnopqrstuvwxyz"; //character storing from a-z lowerchase 
+char code2[] = "bpduhijkaltxwmrzfoysvngeqc";
 
 /*Task 1
 Replaces every space in str with '-' and returns how many spaces were replaced.
