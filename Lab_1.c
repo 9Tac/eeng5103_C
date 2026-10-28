@@ -16,6 +16,7 @@ int readin(void)
     for (i = 0; i < n; i++) {
         if (scanf("%f %f %f", &masses[i].x, &masses[i].y, &masses[i].mass) != 3)
             return 0;
+            
     }
     return n;
 }
