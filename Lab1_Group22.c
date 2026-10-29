@@ -2,25 +2,24 @@
 #include <string.h>
 //Global list varible that cna be used in all functions 
 char code1[] = "abcdefghijklmnopqrstuvwxyz"; //character storing from a-z lowerchase 
-char code2[] = "bpduhijkaltxwmrzfoysvngeqc";
+char code2[] = "zyxwvutsrqponmlkjihgfedcba";
 
 /*Task 1
 Replaces every space in str with '-' and returns how many spaces were replaced.
 str is a pointer to the first character of the string.*/
 int replace(char *str)
 {
-    int count = 0;                 // How many spaces we have replaced so far
+    int count = 0;
 
-    // Keeps looping until we reach the end-of-string marker '\0'
-    while (*str != '\0') {
-        if (*str == ' ') {         // Is the current character a space?
-            *str = '-';            // Overwrite it with a minus sign
-            count++;               // Record that we replaced one more
+    // Loop through the string using its length
+    for (int i = 0; i < strlen(str); i++) {
+        if (str[i] == ' ') {
+            str[i] = '-';
+            count++;
         }
-        str++;                     // Move the pointer to the next character
     }
 
-    return count;                  // Give back the total number replaced
+    return count;
 }
 
 // Task 2: encode lowercase letters using code1 and code2
@@ -29,7 +28,7 @@ void code(char *str)
     int i;
     while (*str != '\0') {
         if (*str >= 'a' && *str <= 'z') {
-            for (i = 0; code1[i] != '\0'; i++) {
+            for (i = 0; code1[i] != '\0'; i++) { // Loop through each character in code1 until the end of the string is reached.
                 if (code1[i] == *str) {
                     *str = code2[i];
                     break;
@@ -45,7 +44,9 @@ int main(void)
     char line[100];                // Space to store one line of typed text (up to 99 characters + '\0')
     int n;                         // Number of spaces replaced
 
-    printf("Enter a line of text:\n");
+     // Clear instructions make it easy for anyone to use!
+    printf("--- Text Encoder ---\n");
+    printf("Please enter a sentence to encode: ");
 
     // fgets reads a whole line, including spaces.
     // It stops at the newline or when the array is full.
@@ -58,10 +59,11 @@ int main(void)
 
     n = replace(line);             // Task 1 changes the spaces
     printf("String is : %s\n", line);
-    printf("Number replaced %d\n", n);
+    printf("Numbers replaced %d\n", n);
 
-    code(line);                    // Task 2 encodes the letters
-    printf("After coding: %s\n", line);
+    code(line);
+    // Change the printf to match the expected "String is :" format
+    printf("String is : %s\n", line);
 
     return 0;
 }
