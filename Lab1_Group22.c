@@ -12,29 +12,45 @@ int replace(char *str)
     int count = 0;
 
     // Loop through the string using its length
-    for (int i = 0; i < strlen(str); i++) {
+    for (int i = 0; i < strlen(str); i++) {     // Visit every character, starting at index 0 and stopping
+ //                                                when we reach the end of the string.
         if (str[i] == ' ') {
             str[i] = '-';
             count++;
         }
-    }
+    }   
 
     return count;
 }
 
-// Task 2: encode lowercase letters using code1 and code2
+// TASK 2: Encode lowercase letters using code1 and code2.
 void code(char *str)
 {
     int i;
+
+    // Check whether the input string is the same as THE array code1.
+    // strcmp() returns 0 when two strings are identical.
+    if (strcmp(str, code1) == 0) {
+        return;  // Nothing to encode if it is already code1.
+    }
+
+    // Process each character until the end of the string.
     while (*str != '\0') {
+
+        // Only encode lowercase letters.
         if (*str >= 'a' && *str <= 'z') {
-            for (i = 0; code1[i] != '\0'; i++) { // Loop through each character in code1 until the end of the string is reached.
+
+            // Find the current letter in code1.
+            for (i = 0; code1[i] != '\0'; i++) {
+
                 if (code1[i] == *str) {
                     *str = code2[i];
                     break;
                 }
             }
         }
+
+        // Move to the next character.
         str++;
     }
 }
