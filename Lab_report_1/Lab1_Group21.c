@@ -1,5 +1,3 @@
-// Welcome to your project!
-
 #include <stdio.h>
 #define MAX 100
 
