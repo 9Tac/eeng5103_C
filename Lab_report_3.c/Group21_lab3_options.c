@@ -10,6 +10,21 @@ options are available:
 */
 
 #include <stdio.h>
+
+
+#define MAX_SONGS 100
+
+typedef struct {
+    char band[50];
+    char song[50];
+    float price;
+    int year;
+} Song;
+
+Song catalogue[MAX_SONGS];   /* global: every function can see the songs */
+int songCount = 0;           /* global: how many songs are stored so far */
+
+
 void showMenu(void){
     printf("Pick the following choices:\n");
     printf("Function 1 Enter data [1]\n");
@@ -21,7 +36,41 @@ void showMenu(void){
 }
 
 
-void enterData(void);
+void enterData(void){
+    if (songCount >= MAX_SONGS) {
+        printf("The catalogue is full.\n");
+        return;
+    }
+
+    Song s;   /* temporary song, copied into the array once it's complete */
+
+    /* fgets reads a whole line, so names with spaces work */
+    printf("Enter the name of the band or singer: ");
+    fgets(s.band, sizeof(s.band), stdin);
+    s.band[strcspn(s.band, "\n")] = '\0';   /* remove the newline fgets keeps */
+
+    printf("Enter the name of the song: ");
+    fgets(s.song, sizeof(s.song), stdin);
+    s.song[strcspn(s.song, "\n")] = '\0';
+
+    /* scanf reads the number, but leaves the Enter key in the buffer */
+    printf("Enter the price: ");
+    scanf("%f", &s.price);
+
+    printf("Enter the year of release: ");
+    scanf("%d", &s.year);
+
+    /* Discard the newline left after the year, so the next prompt waits for input */
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF)
+        ;
+
+    /* Add the song to the end of the array and update the count */
+    catalogue[songCount] = s;
+    songCount++;
+
+    printf("Song added.\n");
+}
 void saveData(void);
 void readData(void);
 void outputCatalogue(void);
