@@ -18,11 +18,9 @@ void showMenu(void){
     printf("Function 4 Print out the catalogue to screen [4]\n");
     printf("Function 5 Exit the program [5]\n");
     printf("Enter your choice now: ");
-
-    int option;
-    scanf("%d", &option);
-    return option;
 }
+
+
 void enterData(void);
 void saveData(void);
 void readData(void);
@@ -92,3 +90,9 @@ int main(void) {
 
     return 0;
 }
+
+void enterData(void)        { printf("[enterData called]\n"); }
+void saveData(void)         { printf("[saveData called]\n"); }
+void readData(void)         { printf("[readData called]\n"); }
+void outputCatalogue(void)  { printf("[outputCatalogue called]\n"); }
+void exitProgram(void)      { printf("Goodbye!\n"); }
