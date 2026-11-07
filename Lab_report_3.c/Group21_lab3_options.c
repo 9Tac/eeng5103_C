@@ -12,20 +12,20 @@ options are available:
 #include <stdio.h>
 
 
-#define MAX_SONGS 100
+#define MAX_SONGS 100 // Limits on the amount of songs as a constant
 
-typedef struct {
-    char band[50];
-    char song[50];
-    float price;
-    int year;
-} Song;
+typedef struct {        // defines structure alongside the name given a shorter name
+    char band[50];      // applies a charter max on the band 
+    char song[50];      // applies a limit on the song charaters 
+    float price;        // cast the price as a float datatype 
+    int year;           // cast year as an integer data type 
+} Song;                 // new type name 
 
-Song catalogue[MAX_SONGS];   /* global: every function can see the songs */
-int songCount = 0;           /* global: how many songs are stored so far */
+Song catalogue[MAX_SONGS];   // global: every function can see the songs 
+int songCount = 0;           // global: how many songs are stored so far
 
 
-void showMenu(void){
+void showMenu(void){/* This is a function that is added so the options are outputted each time the user goes back to the input*/
     printf("Pick the following choices:\n");
     printf("Function 1 Enter data [1]\n");
     printf("Function 2 Save data to file [2]\n");
@@ -37,7 +37,7 @@ void showMenu(void){
 
 
 void enterData(void){
-    if (songCount >= MAX_SONGS) {
+    if (songCount >= MAX_SONGS) {       // check tha the number of songs inputted does not increase 100 charaters
         printf("The catalogue is full.\n");
         return;
     }
@@ -71,6 +71,8 @@ void enterData(void){
 
     printf("Song added.\n");
 }
+
+
 void saveData(void);
 void readData(void);
 void outputCatalogue(void);
@@ -140,7 +142,6 @@ int main(void) {
     return 0;
 }
 
-void enterData(void)        { printf("[enterData called]\n"); }
 void saveData(void)         { printf("[saveData called]\n"); }
 void readData(void)         { printf("[readData called]\n"); }
 void outputCatalogue(void)  { printf("[outputCatalogue called]\n"); }
