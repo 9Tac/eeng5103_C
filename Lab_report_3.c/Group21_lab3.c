@@ -12,7 +12,7 @@ void readArray(int arr[], int size)
     printf("\nEnter elements : \n");
 
     for (i = 0; i < size; i++) {
-        printf("Enter arr[%d] : ", i);
+        printf("Enter [%d] : ", i);
         scanf("%d", &arr[i]);
     }
 }
@@ -42,7 +42,7 @@ void sortArray(int arr[], int size)
    // Note that the inner loop runs faster than the outer loop
     for (i = 0; i < size - 1; i++) {
         for (j = i + 1; j < size; j++) {
-            if (arr[i] > arr[j]) {
+            if (arr[i] < arr[j]) {
                 temp = arr[i];
                 arr[i] = arr[j];
                 arr[j] = temp;
