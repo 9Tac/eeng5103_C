@@ -25,7 +25,7 @@ Song catalogue[MAX_SONGS];   // global: every function can see the songs
 int songCount = 0;           // global: how many songs are stored so far
 
 
-void showMenu(void){/* This is a function that is added so the options are outputted each time the user goes back to the input*/
+void showMenu(void){        // This is a function that is added so the options are outputted each time the user goes back to the input*/
     printf("Pick the following choices:\n");
     printf("Function 1 Enter data [1]\n");
     printf("Function 2 Save data to file [2]\n");
@@ -73,7 +73,27 @@ void enterData(void){
 }
 
 
-void saveData(void);
+void saveData(void){
+       /* "w" creates songs.txt, or replaces its contents if it already exists */
+    FILE *fp = fopen("songs.txt", "w");
+
+    /* fopen returns NULL if the file can't be opened, e.g. no write permission */
+    if (fp == NULL) {
+        printf("Could not open songs.txt for writing.\n");
+        return;
+    }
+
+    /* Write one line per song, with fields separated by '|' */
+    for (int i = 0; i < songCount; i++) {
+        fprintf(fp, "%s|%s|%.2f|%d\n",
+                catalogue[i].band, catalogue[i].song,
+                catalogue[i].price, catalogue[i].year);
+    }
+
+    fclose(fp);   /* close the file so the data is written to disk */
+    printf("%d song(s) saved to songs.txt.\n", songCount);
+
+}
 void readData(void);
 void outputCatalogue(void);
 void exitProgram(void);
