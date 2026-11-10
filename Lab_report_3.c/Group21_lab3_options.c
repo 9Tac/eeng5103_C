@@ -10,6 +10,8 @@ options are available:
 */
 
 #include <stdio.h>
+#include <stdlib.h> //atof, atoi
+#include <string.h> // sttrtok, strncpy, strcspn, strchr
 
 
 #define MAX_SONGS 100 // Limits on the amount of songs as a constant
@@ -94,6 +96,9 @@ void saveData(void){
     printf("%d song(s) saved to songs.txt.\n", songCount);
 
 }
+
+
+
 void readData(void){
     FILE *fp = fopen("songs.txt", "r");   /* "r" opens the file for reading */
 
@@ -140,6 +145,8 @@ void readData(void){
     printf("%d song(s) loaded from songs.txt.\n", songCount);
 
 }
+
+
 void outputCatalogue(void){
     // Nothing to print if no songs have been entered or loaded */
     if (songCount == 0) {
@@ -175,7 +182,12 @@ void outputCatalogue(void){
         printf("Year of Release: %d\n\n", sorted[i].year);
     }
 }
-void exitProgram(void);
+
+
+void exitProgram(void){ 
+    printf("Goodbye!\n");
+}
+
 
 int main(void) {
     int option;     //the menu choice the user typed 
@@ -227,10 +239,10 @@ int main(void) {
                 saveData();         
                 break;
             case 3: 
-                readData();        
+                readData();        // reads amount of entrys in the file 
                 break;
             case 4: 
-                outputCatalogue();  
+                outputCatalogue();  // buble sort to output in occurdence with year
                 break;
             case 5: 
                 exitProgram(); // exits the program     
@@ -240,5 +252,3 @@ int main(void) {
 
     return 0;
 }
-
-void exitProgram(void)      { printf("Goodbye!\n"); }
