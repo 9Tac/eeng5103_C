@@ -94,7 +94,52 @@ void saveData(void){
     printf("%d song(s) saved to songs.txt.\n", songCount);
 
 }
-void readData(void);
+void readData(void){
+    FILE *fp = fopen("songs.txt", "r");   /* "r" opens the file for reading */
+
+    if (fp == NULL) {
+        printf("No saved file found. Save data first.\n");
+        return;
+    }
+
+    songCount = 0;   /* the file is the source of truth, so start the array again */
+
+    char line[200];  /* large enough for one saved line */
+
+    /* Read one line at a time until the file ends or the array is full */
+    while (songCount < MAX_SONGS && fgets(line, sizeof(line), fp) != NULL) {
+        Song s;
+
+        /* strtok splits the line wherever it finds the separator */
+        char *bandPart  = strtok(line, "|");
+        char *songPart  = strtok(NULL, "|");
+        char *pricePart = strtok(NULL, "|");
+        char *yearPart  = strtok(NULL, "\n");
+
+        /* Skip any line that doesn't have all four fields */
+        if (bandPart == NULL || songPart == NULL ||
+            pricePart == NULL || yearPart == NULL) {
+            continue;
+        }
+
+        /* Copy the text into the struct, keeping room for '\0' */
+        strncpy(s.band, bandPart, sizeof(s.band) - 1);
+        s.band[sizeof(s.band) - 1] = '\0';
+
+        strncpy(s.song, songPart, sizeof(s.song) - 1);
+        s.song[sizeof(s.song) - 1] = '\0';
+
+        s.price = (float)atof(pricePart);   /* text to decimal number */
+        s.year  = atoi(yearPart);           /* text to whole number */
+
+        catalogue[songCount] = s;           /* store the song */
+        songCount++;
+    }
+
+    fclose(fp);
+    printf("%d song(s) loaded from songs.txt.\n", songCount);
+
+}
 void outputCatalogue(void);
 void exitProgram(void);
 
@@ -162,7 +207,6 @@ int main(void) {
     return 0;
 }
 
-void saveData(void)         { printf("[saveData called]\n"); }
-void readData(void)         { printf("[readData called]\n"); }
+
 void outputCatalogue(void)  { printf("[outputCatalogue called]\n"); }
 void exitProgram(void)      { printf("Goodbye!\n"); }
