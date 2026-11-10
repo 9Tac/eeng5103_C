@@ -42,30 +42,30 @@ void enterData(void){
         return;
     }
 
-    Song s;   /* temporary song, copied into the array once it's complete */
+    Song s;   // temporary song, copied into the array once it's complete 
 
-    /* fgets reads a whole line, so names with spaces work */
+    // fgets reads a whole line, so names with spaces work */
     printf("Enter the name of the band or singer: ");
     fgets(s.band, sizeof(s.band), stdin);
-    s.band[strcspn(s.band, "\n")] = '\0';   /* remove the newline fgets keeps */
+    s.band[strcspn(s.band, "\n")] = '\0';   // remove the newline fgets keeps 
 
     printf("Enter the name of the song: ");
     fgets(s.song, sizeof(s.song), stdin);
     s.song[strcspn(s.song, "\n")] = '\0';
 
-    /* scanf reads the number, but leaves the Enter key in the buffer */
+    // scanf reads the number, but leaves the Enter key in the buffer 
     printf("Enter the price: ");
     scanf("%f", &s.price);
 
     printf("Enter the year of release: ");
     scanf("%d", &s.year);
 
-    /* Discard the newline left after the year, so the next prompt waits for input */
+    // Discard the newline left after the year, so the next prompt waits for input 
     int c;
     while ((c = getchar()) != '\n' && c != EOF)
         ;
 
-    /* Add the song to the end of the array and update the count */
+    // Add the song to the end of the array and update the count 
     catalogue[songCount] = s;
     songCount++;
 
@@ -74,16 +74,16 @@ void enterData(void){
 
 
 void saveData(void){
-       /* "w" creates songs.txt, or replaces its contents if it already exists */
+       // "w" creates songs.txt, or replaces its contents if it already exists 
     FILE *fp = fopen("songs.txt", "w");
 
-    /* fopen returns NULL if the file can't be opened, e.g. no write permission */
+    // fopen returns NULL if the file can't be opened, e.g. no write permission 
     if (fp == NULL) {
         printf("Could not open songs.txt for writing.\n");
         return;
     }
 
-    /* Write one line per song, with fields separated by '|' */
+    // Write one line per song, with fields separated by '|' 
     for (int i = 0; i < songCount; i++) {
         fprintf(fp, "%s|%s|%.2f|%d\n",
                 catalogue[i].band, catalogue[i].song,
@@ -106,11 +106,11 @@ void readData(void){
 
     char line[200];  /* large enough for one saved line */
 
-    /* Read one line at a time until the file ends or the array is full */
+    // Read one line at a time until the file ends or the array is full */
     while (songCount < MAX_SONGS && fgets(line, sizeof(line), fp) != NULL) {
         Song s;
 
-        /* strtok splits the line wherever it finds the separator */
+        // strtok splits the line wherever it finds the separator */
         char *bandPart  = strtok(line, "|");
         char *songPart  = strtok(NULL, "|");
         char *pricePart = strtok(NULL, "|");
@@ -122,7 +122,7 @@ void readData(void){
             continue;
         }
 
-        /* Copy the text into the struct, keeping room for '\0' */
+        // Copy the text into the struct, keeping room for '\0' 
         strncpy(s.band, bandPart, sizeof(s.band) - 1);
         s.band[sizeof(s.band) - 1] = '\0';
 
@@ -130,9 +130,9 @@ void readData(void){
         s.song[sizeof(s.song) - 1] = '\0';
 
         s.price = (float)atof(pricePart);   /* text to decimal number */
-        s.year  = atoi(yearPart);           /* text to whole number */
+        s.year  = atoi(yearPart);           // text to whole number */
 
-        catalogue[songCount] = s;           /* store the song */
+        catalogue[songCount] = s;           // store the song */
         songCount++;
     }
 
@@ -140,7 +140,41 @@ void readData(void){
     printf("%d song(s) loaded from songs.txt.\n", songCount);
 
 }
-void outputCatalogue(void);
+void outputCatalogue(void){
+    // Nothing to print if no songs have been entered or loaded */
+    if (songCount == 0) {
+        printf("The catalogue is empty.\n");
+        return;
+    }
+
+    // Copy the songs so sorting doesn't change the original order in catalogue */
+    Song sorted[MAX_SONGS];
+    for (int i = 0; i < songCount; i++) {
+        sorted[i] = catalogue[i];
+    }
+
+    // Bubble sort by year, newest first.
+    /* Each pass compares neighbouring songs and swaps them if the
+       older one comes before the newer one. */
+    for (int i = 0; i < songCount - 1; i++) {
+        for (int j = 0; j < songCount - 1 - i; j++) {
+            if (sorted[j].year < sorted[j + 1].year) {
+                Song temp = sorted[j];        // swap the two songs */
+                sorted[j] = sorted[j + 1];
+                sorted[j + 1] = temp;
+            }
+        }
+    }
+
+    // Print each song with a label, in the sorted order //
+    printf("\n--- Song Catalogue (newest to oldest) ---\n");
+    for (int i = 0; i < songCount; i++) {
+        printf("Name of Band: %s\n", sorted[i].band);
+        printf("Name of Song: %s\n", sorted[i].song);
+        printf("Price: %.2f\n", sorted[i].price);
+        printf("Year of Release: %d\n\n", sorted[i].year);
+    }
+}
 void exitProgram(void);
 
 int main(void) {
@@ -170,7 +204,7 @@ int main(void) {
             continue;                 //skip the rest of this loop and ask again
         }
 
-        /* Discard the rest of the line (e.g. the newline after the number) */
+        // Discard the rest of the line (e.g. the newline after the number) */
         int c;
         while ((c = getchar()) != '\n' && c != EOF)
             ;
@@ -207,6 +241,4 @@ int main(void) {
     return 0;
 }
 
-
-void outputCatalogue(void)  { printf("[outputCatalogue called]\n"); }
 void exitProgram(void)      { printf("Goodbye!\n"); }
